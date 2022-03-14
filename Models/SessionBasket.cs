@@ -5,11 +5,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Text.Json.Serialization;
 using Bookstore.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Bookstore.Models
 {
     public class SessionBasket : Basket
     {
+
+        public static Basket GetBasket (IServiceProvider services)
+        {
+            ISession session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
+
+            SessionBasket basket = session?.GetJson<SessionBasket>("Basket") ?? new SessionBasket();
+
+            return basket;
+        }
 
         [JsonIgnore]
         public ISession Session { get; set; }
