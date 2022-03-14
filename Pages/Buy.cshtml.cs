@@ -31,5 +31,10 @@ namespace Bookstore.Pages
 
             return RedirectToPage(new { ReturnUrl = returnUrl });
         }
+
+        public IActionResult OnPostRemove ()
+        {
+
+        }
     }
 }
