@@ -12,12 +12,16 @@ namespace Bookstore.Pages
     public class BuyModel : PageModel
     {
         private IBookstoreRepository repo { get; set; }
-        public BuyModel (IBookstoreRepository temp)
-        {
-            repo = temp;
-        }
+
         public Basket basket { get; set; }
         public string ReturnUrl { get; set; }
+
+        public BuyModel (IBookstoreRepository temp, Basket b)
+        {
+            repo = temp;
+            basket = b;
+        }
+        
         public void OnGet(string returnUrl)
         {
             ReturnUrl = returnUrl ?? "/";        
@@ -32,9 +36,10 @@ namespace Bookstore.Pages
             return RedirectToPage(new { ReturnUrl = returnUrl });
         }
 
-        public IActionResult OnPostRemove ()
+        public IActionResult OnPostRemove (int bookId, string returnUrl)
         {
-
+            basket.RemoveItem(basket.Items.First(x => x.Book.BookId == bookId).Book);
+            return RedirectToPage(new { ReturnUrl = returnUrl });
         }
     }
 }
