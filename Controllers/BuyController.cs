@@ -39,7 +39,7 @@ namespace Bookstore.Controllers
                 repo.SaveBuy(buy);
                 basket.ClearBasket();
 
-                return View();
+                return RedirectToPage("/BuyCompleted");
             }
             else
             {
