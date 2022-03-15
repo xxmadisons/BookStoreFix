@@ -17,6 +17,12 @@
                         <th>Book</th>
                         <th>Quantity</th>
 
+                        <td>
+                            <button class="btn btn-sm btn-danger" @onclick="@(x => BuySelected.InvokeAsync(b.BuyId))">
+                                @ButtonLabel
+                            </button>
+                        </td>
+
                     </tr>
 
                     @foreach (BasketLineItem bli in b.Lines)

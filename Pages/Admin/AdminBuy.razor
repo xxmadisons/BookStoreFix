@@ -3,10 +3,10 @@
 @inherits OwningComponentBase<IBuyRepository>
 
 <BuyTable TableTitle="Uncollected Buy" Buy="UncollectedBuy"
-          ButtonLabel="Collected" BuySelected="ResetBuy"></BuyTable>
+          ButtonLabel="Collected" BuySelected="CollectBuy"></BuyTable>
 
 <BuyTable TableTitle="Collected Buy" Buy="CollectedBuy"
-          ButtonLabel="Reset" BuySelected="CollectBuy"></BuyTable>
+          ButtonLabel="Reset" BuySelected="ResetBuy"></BuyTable>
 
 <button class="btn btn-info" @onclick="@(x => UpdateData())">Refresh Data</button>
 
