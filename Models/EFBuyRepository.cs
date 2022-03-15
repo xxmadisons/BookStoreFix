@@ -14,11 +14,19 @@ namespace Bookstore.Models
         {
             context = temp;
         }
-        public IQueryable<Buy> Buy => context.Buy.Include(x => x.Lines);
+        public IQueryable<Buy> Buy => context.Buy.Include(x => x.Lines).ThenInclude(x => x.Book);
 
         public void SaveBuy(Buy buy)
         {
-            throw new NotImplementedException();
+            context.AttachRange(buy.Lines.Select(x => x.Book));
+
+            if (buy.BuyId == 0)
+            {
+                context.Buy.Add(buy);
+            }
+
+            context.SaveChanges();
+
         }
     }
 }

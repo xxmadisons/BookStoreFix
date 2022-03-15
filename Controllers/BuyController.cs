@@ -10,9 +10,13 @@ namespace Bookstore.Controllers
     public class BuyController : Controller
     {
 
-        public BuyController ()
-        {
+        private IBuyRepository repo { get; set; }
+        private Basket basket { get; set; }
 
+        public BuyController (IBuyRepository temp, Basket b)
+        {
+            repo = temp;
+            basket = b;
         }
 
         [HttpGet]
@@ -24,6 +28,24 @@ namespace Bookstore.Controllers
         [HttpPost]
         public IActionResult Checkout(Buy buy)
         {
+            if (basket.Items.Count() == 0)
+            {
+                ModelState.AddModelError("", "Sorry, your basket is empty.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                buy.Lines = basket.Items.ToArray();
+                repo.SaveBuy(buy);
+                basket.ClearBasket();
+
+                return View();
+            }
+            else
+            {
+                return View();
+            }
+
 
         }
     }
