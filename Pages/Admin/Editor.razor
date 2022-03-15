@@ -1,5 +1,5 @@
 ﻿@page "/admin/adminbooks/edit/{id:long}"
-@page "/admin/projects/create"
+@page "/admin/adminbooks/create"
 @inherits OwningComponentBase<IBookstoreRepository>
 
 <style>
@@ -9,7 +9,12 @@
 <h3 class="bg-@ThemeColor text-white text-center p-1">@TitleText a Book</h3>
 
 <EditForm Model="b" OnValidSubmit="SaveBook">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
 
+    @if (b.BookId != 0)
+    {
+
+    }
 
 </EditForm>
 
@@ -19,4 +24,33 @@
 
     public string ThemeColor => Id == 0 ? "primary" : "warning";
     public string TitleText => Id == 0 ? "Create" : "Edit";
+
+    public Book b { get; set; } = new Book();
+
+    public IBookstoreRepository repo => Service;
+
+    protected override void OnParametersSet()
+    {
+        if (Id != 0) //Existing book
+        {
+            b = repo.Books.FirstOrDefault(x => x.BookId == Id);
+        }
+    }
+
+    public void SaveBook()
+    {
+        if (Id ==0) //New Book
+        {
+            repo.CreateBook(b);
+        }
+        else
+        {
+            repo.SaveBook(b);
+        }
+    }
+
+    [Inject]
+    public NavigationManager NavManager { get; set; }
+
+
 }
