@@ -22,6 +22,19 @@
                         <td>@b.BookId</td>
                         <td>@b.Title</td>
                         <td>@b.Category</td>
+
+                        <td>
+                            <NavLink class="btn btn-info btn-sm" href="@GetDetailsUrl(b.BookId)">Details</NavLink>
+                        </td>
+
+                        <td>
+                            <NavLink class="btn btn-warning btn-sm" href="@GetEditUrl(b.BookId)">Edit</NavLink>
+                        </td>
+
+                        <td>
+                            <button class="btn btn-danger btn-sm" @onclick="@(x => RemoveBook(b))">Delete</button>
+                        </td>
+
                     </tr>
                 }
         }
@@ -54,5 +67,16 @@
     {
         BookData = await repo.Books.ToListAsync();
     }
+
+    public string GetDetailsUrl(long id) => $"/admin/adminbooks/details/{id}";
+
+    public string GetEditUrl(long id) => $"/admin/adminbooks/edit/{id}";
+
+    public async Task RemoveBook (Book b)
+    {
+        repo.DeleteBook(b);
+        await UpdateData();
+    }
+
 
 }
