@@ -40,16 +40,21 @@ namespace Bookstore.Controllers
                     {
                         return Redirect(loginModel?.ReturnUrl ?? "/Admin");
                     }
-
-                    
+                  
                 }
 
             }
+
             ModelState.AddModelError("", "Invalid username or password.");
             return View(loginModel);
 
+        }
 
+        public async Task<RedirectResult> Logout (string returnUrl = "/")
+        {
+            await signInManager.SignOutAsync();
 
+            return Redirect(returnUrl);
         }
 
 
