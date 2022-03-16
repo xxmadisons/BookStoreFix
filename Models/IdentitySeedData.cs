@@ -9,10 +9,12 @@ using System.Threading.Tasks;
 
 namespace Bookstore.Models
 {
-    public class IdentitySeedData
+    public static class IdentitySeedData
     {
         private const string adminUser = "Admin";
-        private const string adminPassword = "Password123456!";
+        private const string adminPassword = "413ExtraYeetPeriod(t)!";
+
+        public static int num = 0;
 
         public static async void EnsurePopulated(IApplicationBuilder app)
         {
