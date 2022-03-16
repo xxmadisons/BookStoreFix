@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Bookstore.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Bookstore
 {
@@ -34,6 +35,12 @@ namespace Bookstore
                options.UseSqlite(Configuration["ConnectionStrings:BookDBConnection"]);
 
            });
+
+            services.AddDbContext<AppIdentityDBContext>(options =>
+                options.UseSqlite(Configuration["ConnectionStrings:IdentityConnection"]));
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppIdentityDBContext>();
 
             services.AddScoped<IBookstoreRepository, EFBookstoreRepository>();
             services.AddScoped<IBuyRepository, EFBuyRepository>();
@@ -65,6 +72,9 @@ namespace Bookstore
             app.UseSession();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
